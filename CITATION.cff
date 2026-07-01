@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: If you use Spine, please cite it as below.
+title: Spine
+type: software
+authors:
+  - family-names: Ding
+    given-names: James
+repository-code: https://github.com/twangodev/spine-codec
+license: Apache-2.0
+version: 0.1.0
+date-released: 2026-07-01

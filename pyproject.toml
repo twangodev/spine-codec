@@ -1,0 +1,41 @@
+[project]
+name = "spine-codec"
+version = "0.1.0"
+description = "A neural audio codec for expressive speech"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.12"
+authors = [{ name = "twango.dev" }]
+keywords = ["neural-audio-codec", "speech", "tts", "ddsp", "fsq"]
+
+dependencies = [
+    "torch",
+    "torchaudio",
+    "vector-quantize-pytorch",
+    "einops",
+    "pyyaml",
+]
+
+[project.optional-dependencies]
+train = ["wandb"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["spine"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.15.20",
+    "ty>=0.0.56",
+    "wandb>=0.28.0",
+]
