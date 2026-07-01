@@ -19,6 +19,9 @@ dependencies = [
 [project.optional-dependencies]
 train = ["wandb"]
 
+[project.scripts]
+spine = "spine.cli:main"
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
