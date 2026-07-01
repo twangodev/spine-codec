@@ -1,4 +1,4 @@
-# Spine
+# spine
 
 [![PyTorch](https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![License](https://img.shields.io/github/license/twangodev/spine-codec)](LICENSE)
