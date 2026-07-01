@@ -1,6 +1,7 @@
 # spine
 
 [![PyTorch](https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![Hugging Face](https://img.shields.io/badge/Hugging_Face-model-FFD21E?logo=huggingface&logoColor=FFD21E)](https://huggingface.co/twangodev/spine-codec)
 [![License](https://img.shields.io/github/license/twangodev/spine-codec)](LICENSE)
 
 A neural audio codec for expressive speech.
@@ -21,17 +22,19 @@ uv sync
 
 ## Usage
 
+The pretrained model is downloaded from [twangodev/spine-codec](https://huggingface.co/twangodev/spine-codec) on first use; pass `--checkpoint` to use a local training checkpoint instead.
+
 ```bash
-spine encode --checkpoint spine.pt --input speech.wav --output codes.pt
-spine decode --checkpoint spine.pt --input codes.pt --output speech.wav
-spine recon  --checkpoint spine.pt --input speech.wav --output roundtrip.wav
+spine encode --input speech.wav --output codes.pt
+spine decode --input codes.pt --output speech.wav
+spine recon  --input speech.wav --output roundtrip.wav
 ```
 
 ```python
 import torchaudio
-from spine import Spine, ModelConfig
+from spine import Spine
 
-model = Spine(ModelConfig()).eval()
+model = Spine.from_pretrained("twangodev/spine-codec")
 audio, sr = torchaudio.load("speech.wav")  # 24 kHz mono
 codes = model.encode(audio.unsqueeze(0))
 reconstruction = model.decode(codes)

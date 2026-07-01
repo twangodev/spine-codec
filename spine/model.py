@@ -9,7 +9,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .config import ModelConfig
+from .config import ModelConfig, model_config_from_dict
 from .decoder import Decoder
 from .encoder import Encoder
 from .nn import FilteredSnake, Snake
@@ -79,6 +79,26 @@ class Spine(nn.Module):
             hf_head_n_fft=cfg.hf_head_n_fft,
             output_bound=cfg.output_bound,
         )
+
+    @classmethod
+    def from_pretrained(
+        cls,
+        repo_id: str = "twangodev/spine-codec",
+        device: str = "cpu",
+        revision: str | None = None,
+    ) -> Spine:
+        """Download config + weights from the Hugging Face Hub and return an eval-mode model."""
+        import json
+
+        from huggingface_hub import hf_hub_download
+        from safetensors.torch import load_file
+
+        config_path = hf_hub_download(repo_id, "config.json", revision=revision)
+        weights_path = hf_hub_download(repo_id, "model.safetensors", revision=revision)
+        with open(config_path) as f:
+            model = cls(model_config_from_dict(json.load(f)))
+        model.load_state_dict(load_file(weights_path))
+        return model.to(device).eval()
 
     def preprocess(self, audio: torch.Tensor) -> tuple[torch.Tensor, int]:
         """Right-pad audio to a multiple of ``hop_length * max(vq_strides)`` (the coarsest frame)."""

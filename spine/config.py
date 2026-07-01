@@ -175,6 +175,11 @@ def from_dict(d: dict[str, Any]) -> SpineConfig:
     )
 
 
+def model_config_from_dict(d: dict[str, Any]) -> ModelConfig:
+    """Build a ModelConfig from a plain dict, ignoring unknown keys."""
+    return ModelConfig(**_coerce_sequences(ModelConfig, d))
+
+
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     """Recursively merge ``override`` into ``base`` (override wins on leaf conflicts)."""
     merged = base.copy()
