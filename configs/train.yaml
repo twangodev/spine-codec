@@ -1,0 +1,10 @@
+training:
+  batch_size: 6
+  max_steps: 250000
+  disc_start_step: 10000
+  save_every: 5000
+  log_every: 10
+  num_workers: 24
+
+data:
+  train_dir: data/train
