@@ -1,0 +1,92 @@
+name: python
+
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+          cache-suffix: ${{ github.job }}
+      - run: uv lock --check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+          cache-suffix: ${{ github.job }}
+      - run: uv sync --only-group dev
+      - run: uv run --no-sync poe lint
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+          cache-suffix: ${{ github.job }}
+      - run: uv sync --only-group dev
+      - run: uv run --no-sync poe format
+
+  typecheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+          cache-suffix: ${{ github.job }}
+      - run: uv sync
+      - run: uv run --no-sync poe typecheck
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+          cache-suffix: ${{ github.job }}
+      - run: uv sync
+      - run: uv run --no-sync poe test
+
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+          cache-suffix: ${{ github.job }}
+      - uses: actions/cache@v6
+        with:
+          path: |
+            ~/.cache/librispeech
+            ~/.cache/huggingface
+          key: integration-data-v1
+      - run: uv sync
+      - run: uv run --no-sync poe test-integration
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8
+        with:
+          enable-cache: true
+          cache-suffix: ${{ github.job }}
+      - run: uv build
