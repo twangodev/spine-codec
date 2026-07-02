@@ -1,6 +1,7 @@
 # spine
 
 [![PyTorch](https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![PyPI](https://img.shields.io/pypi/v/spine-codec)](https://pypi.org/project/spine-codec/)
 [![Hugging Face](https://img.shields.io/badge/Hugging_Face-model-FFD21E?logo=huggingface&logoColor=FFD21E)](https://huggingface.co/twangodev/spine-codec)
 [![License](https://img.shields.io/github/license/twangodev/spine-codec)](LICENSE)
 
@@ -17,8 +18,20 @@ Spine encodes 24 kHz mono audio into multi-scale [FSQ](https://arxiv.org/abs/230
 ## Installation
 
 ```bash
-uv sync
+pip install spine-codec
 ```
+
+Training pulls in extra dependencies (wandb):
+
+```bash
+pip install "spine-codec[train]"
+```
+
+For development, clone this repo and run `uv sync`.
+
+> [!NOTE]
+> An unrelated PyPI package named `spine` shares the `spine` import name and
+> console script; avoid installing both in the same environment.
 
 ## Usage
 
@@ -45,6 +58,9 @@ reconstruction = model.decode(codes)
 ```bash
 spine train --config configs/train.yaml
 ```
+
+Training configs live in the repo (not the wheel), so train from a git checkout
+with the `train` extra installed.
 
 YAML configs are sparse overrides on top of the defaults in `spine/config.py`.
 
