@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "A neural audio codec for expressive speech"
 readme = "README.md"
 license = { text = "Apache-2.0" }
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.13"
 authors = [{ name = "twango.dev" }]
 keywords = ["neural-audio-codec", "speech", "tts", "ddsp", "fsq"]
 
