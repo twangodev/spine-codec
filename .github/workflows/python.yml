@@ -86,7 +86,7 @@ jobs:
       - run: uv build
 
   release-please:
-    needs: [typecheck, integration, build]
+    needs: [typecheck, test, build]
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     permissions:
