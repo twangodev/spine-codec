@@ -29,9 +29,6 @@ pip install "spine-codec[train]"
 
 For development, clone this repo and run `uv sync`.
 
-> **Note:** An unrelated PyPI package named `spine` shares the `spine` import
-> name and console script; avoid installing both in the same environment.
-
 ## Usage
 
 The pretrained model is downloaded from [twangodev/spine-codec](https://huggingface.co/twangodev/spine-codec) on first use; pass `--checkpoint` to use a local training checkpoint instead.
