@@ -40,8 +40,24 @@ extend-select = ["I"]
 
 [dependency-groups]
 dev = [
+    "poethepoet>=0.32.0",
     "pytest>=9.1.1",
     "ruff>=0.15.20",
     "ty>=0.0.56",
     "wandb>=0.28.0",
+]
+
+[tool.poe.tasks]
+lint             = "ruff check ."
+format           = "ruff format --check ."
+fmt              = "ruff format ."
+typecheck        = "ty check"
+test             = "pytest"
+test-integration = "pytest -m integration"
+check            = ["lint", "format", "typecheck", "test"]
+
+[tool.pytest.ini_options]
+addopts = "-m 'not integration'"
+markers = [
+    "integration: slow end-to-end test that downloads LibriSpeech and the pretrained model",
 ]
