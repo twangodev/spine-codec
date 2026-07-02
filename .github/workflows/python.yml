@@ -53,12 +53,16 @@ jobs:
   test:
     needs: [lock, lint, format]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v8.2.0
         with:
           enable-cache: true
-          cache-suffix: ${{ github.job }}
+          cache-suffix: ${{ github.job }}-${{ matrix.python-version }}
+          python-version: ${{ matrix.python-version }}
       - run: uv run poe test
 
   integration:
@@ -90,3 +94,33 @@ jobs:
           enable-cache: true
           cache-suffix: ${{ github.job }}
       - run: uv build
+
+  release-please:
+    needs: [typecheck, test, integration, build]
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+    steps:
+      - uses: googleapis/release-please-action@v5
+        id: release
+        with:
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+  publish:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
+    runs-on: ubuntu-latest
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v8.2.0
+      - run: uv build
+      - uses: pypa/gh-action-pypi-publish@release/v1
