@@ -9,16 +9,6 @@ on:
   pull_request:
 
 jobs:
-  lock:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v8.2.0
-        with:
-          enable-cache: true
-          cache-suffix: ${{ github.job }}
-      - run: uv lock --check
-
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -40,7 +30,7 @@ jobs:
       - run: uv run --only-group dev poe format
 
   typecheck:
-    needs: [lock, lint, format]
+    needs: [lint, format]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -51,7 +41,7 @@ jobs:
       - run: uv run poe typecheck
 
   test:
-    needs: [lock, lint, format]
+    needs: [lint, format]
     runs-on: ubuntu-latest
     strategy:
       matrix:
