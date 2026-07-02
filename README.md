@@ -3,11 +3,11 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![PyPI](https://img.shields.io/pypi/v/spine-codec)](https://pypi.org/project/spine-codec/)
 [![Hugging Face](https://img.shields.io/badge/Hugging_Face-model-FFD21E?logo=huggingface&logoColor=FFD21E)](https://huggingface.co/twangodev/spine-codec)
-[![License](https://img.shields.io/github/license/twangodev/spine-codec)](LICENSE)
+[![License](https://img.shields.io/github/license/twangodev/spine-codec)](https://github.com/twangodev/spine-codec/blob/main/LICENSE)
 
 A neural audio codec for expressive speech.
 
-![Architecture](.github/assets/architecture.png)
+![Architecture](https://raw.githubusercontent.com/twangodev/spine-codec/main/.github/assets/architecture.png)
 
 Spine encodes 24 kHz mono audio into multi-scale [FSQ](https://arxiv.org/abs/2309.15505) tokens at 1.57 kbps (~88 tokens/s) across four temporal scales (~6 / 12 / 23 / 47 Hz), keeping sequences short for downstream language models. The convolutional decoder is hard-bandlimited at 6 kHz by a fixed crossover; a filtered-noise branch and a complex-STFT head synthesize the high band under purely adversarial supervision, eliminating the high-frequency static typical of GAN codecs.
 
@@ -29,9 +29,8 @@ pip install "spine-codec[train]"
 
 For development, clone this repo and run `uv sync`.
 
-> [!NOTE]
-> An unrelated PyPI package named `spine` shares the `spine` import name and
-> console script; avoid installing both in the same environment.
+> **Note:** An unrelated PyPI package named `spine` shares the `spine` import
+> name and console script; avoid installing both in the same environment.
 
 ## Usage
 
