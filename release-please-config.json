@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "87aca06b1a7779b7d495d82d8c610c18c487ae06",
+  "packages": {
+    ".": {
+      "release-type": "python",
+      "package-name": "spine-codec",
+      "include-component-in-tag": false,
+      "bump-minor-pre-major": true,
+      "bump-patch-for-minor-pre-major": true,
+      "extra-files": [
+        { "type": "generic", "path": "spine/__init__.py" },
+        { "type": "generic", "path": "CITATION.cff" }
+      ]
+    }
+  }
+}
