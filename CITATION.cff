@@ -8,4 +8,4 @@ authors:
 repository-code: https://github.com/twangodev/spine-codec
 license: Apache-2.0
 version: 0.1.0 # x-release-please-version
-date-released: 2026-07-01 # x-release-please-date
+date-released: 2026-07-02 # x-release-please-date
